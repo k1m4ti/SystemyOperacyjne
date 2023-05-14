@@ -1,0 +1,27 @@
+==========================================================================================================
+Program składa się z trzech plików: głównego programu, programu producenta i programu konsumenta.
+Główny program tworzy semafory i pamięć współdzieloną, a następnie tworzy dwa procesy potomne -
+producenta i konsumenta - za pomocą funkcji fork(). W procesach potomnych uruchamiane są odpowiednie
+programy producenta i konsumenta za pomocą funkcji execlp(). Procesy producenta i konsumenta są
+zsynchronizowane za pomocą semaforów. Program producenta otwiera plik źródłowy i semafory oraz
+pamięć współdzieloną. Następnie mapuje pamięć, czyta dane z pliku i przekazuje je do bufora w
+pamięci współdzielonej. Proces producenta oczekuje na zasoby za pomocą semafora producenta, czyta
+dane z pliku i zapisuje je do bufora. Po zakończeniu odczytu pliku, producent wysyła sygnał do
+konsumenta poprzez semafor konsumenta i kończy swoje działanie. Program konsumenta otwiera plik
+docelowy oraz semafory i pamięć współdzieloną. Następnie mapuje pamięć i odczytuje dane z bufora
+w pamięci współdzielonej, zapisując je do pliku docelowego. Konsument oczekuje na dostęp do
+zasobów za pomocą semafora konsumenta, odczytuje dane z bufora i zapisuje je do pliku. Po zakończeniu
+odczytu danych, konsument wysyła sygnał do producenta poprzez semafor producenta i kończy swoje działanie.
+Główny program czeka na zakończenie obu procesów potomnych i kończy swoje działanie. Wszystkie zasoby są
+zwalniane przed zakończeniem programu.
+==========================================================================================================
+Program można uruchomić na dwa sposoby:
+-> make runS (tworzone są bilioteki statyczne)
+-> make runD (tworzone są biblioteki dynamiczne)
+==========================================================================================================
+Aby wyczyścić katalog:
+-> make clean
+==========================================================================================================
+Aby zarchiwizować katalog:
+-> make tar
+==========================================================================================================
