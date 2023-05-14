@@ -1,0 +1,31 @@
+
+==============================================================================
+ Objasnienia:
+------------------------------------------------------------------------------
+ Jezeli nie chcemy by make wykonal okreslone dzialania, a jedynie wypisal
+ na ekranie odpowiednie instrukcje, to wywolujemy go z opcja -n, np.
+ make -n run
+------------------------------------------------------------------------------
+ Aby byc pewnym, ze wykonywane sa polecenia zdefiniowane w pliku Makefile,
+ a nie wbudowane polecenia programu make, uruchamiac make z opcja -r, np.
+ make -r run
+------------------------------------------------------------------------------
+ Parametry uruchomiania programu ustawiamy w makefile:
+ NAME4 -> ilość utworzonych procesów
+ NAME5 -> ilość sekcji
+ NAME6 -> nazwa pliku w którym znajduje się liczba
+ NAME7 -> nazwa semafora
+ NAME8 -> opcja uruchomiania jeśli 1 to program korzysta z semaforów jeśli 0
+          to program nie korzysta z semaforów
+ ------------------------------------------------------------------------------
+ Liczba w pliku powinna wynosić po zakończeniu działania programu NAME4 * NAME5
+ ------------------------------------------------------------------------------
+ Aby uruchomić program należy wpisać:
+ -> make run
+ ------------------------------------------------------------------------------
+ Aby wyczyścić katalog należy wpisać:
+ -> make clean
+ ------------------------------------------------------------------------------
+ Aby zarchiwizować katalog należy wpisać:
+ -> make tar
+ ==============================================================================

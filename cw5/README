@@ -1,0 +1,11 @@
+Program służy do tworzenia potoku nazwowego i przesyłania danych "od producenta do konsumenta".
+
+Program można uruchomić na dwa sposoby za pomocą komendy:
+-> make runA
+-> make runB
+
+Czyszczenie katalogu:
+-> make clean
+
+Archiwizacja:
+-> make tar
