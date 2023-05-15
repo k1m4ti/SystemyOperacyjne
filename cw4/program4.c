@@ -1,3 +1,10 @@
+/*
+ * created 18/04/23 by Mateusz Glab
+ * program creates pipe and child process,
+ * then the data from source file is transferred
+ * using pipe to another file opened in consumer process
+ * */
+
 #include <stdio.h>
 #include <stdlib.h>
 #include <sys/types.h>
