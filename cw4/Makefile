@@ -22,8 +22,8 @@ EXEC1 = $(NAME1).x
 OBJS1  = $(NAME1).o
 
 # Opcje kompilatora i linkera; -fPIC potrzebna dla bibliotek dzielonych
-CFLAGS = -Wall -std=gnu99 -pedantic -O -fPIC
-LFLAGS = -Wall -std=gnu99 -pedantic -O
+CFLAGS = -Wall -std=c99 -pedantic -O -fPIC
+LFLAGS = -Wall -std=c99 -pedantic -O
 
 # Kompilator i linker
 CO = gcc

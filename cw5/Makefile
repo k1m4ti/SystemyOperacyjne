@@ -29,8 +29,8 @@ OBJS2  = $(NAME2).o
 OBJS3  = $(NAME3).o
 
 # Opcje kompilatora i linkera; -fPIC potrzebna dla bibliotek dzielonych
-CFLAGS = -Wall -std=gnu99 -pedantic -O -fPIC
-LFLAGS = -Wall -std=gnu99 -pedantic -O
+CFLAGS = -Wall -std=c99 -pedantic -O -fPIC
+LFLAGS = -Wall -std=c99 -pedantic -O
 
 # Kompilator i linker
 CO = gcc
