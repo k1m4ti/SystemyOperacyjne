@@ -1,11 +1,31 @@
-Program służy do tworzenia potoku nazwowego i przesyłania danych "od producenta do konsumenta".
-
-Program można uruchomić na dwa sposoby za pomocą komendy:
+====================================================================================
+Ten zestaw programów implementuje mechanizm przesyłania danych między procesem
+producenta a konsumenta za pomocą potoku FIFO.Program producenta otwiera plik
+przekazany jako argument w SOURCE oraz potok FIFO (nazwa przekazana jako
+argument w FIFO). Następnie producent generuje losowe bufory danych o
+zdefiniowanej wielkości (określonej przez zmienną dataFrameUploading) i przesyła
+je przez potok FIFO do konsumenta. Po przesłaniu każdego bufora producent
+wyświetla informacje o postępie, takie jak dane przesyłane i stan przesyłania,
+na standardowym wyjściu (terminalu). Program konsumenta otwiera plik docelowy
+(przekazany jako argument w DESTINATION) oraz potok FIFO (nazwa przekazana jako
+argument w FIFO). Konsument odbiera dane z potoku FIFO, zapisuje je do pliku
+docelowego i wyświetla informacje o postępie, takie jak odebrane dane i stan
+przesyłania, na standardowym wyjściu (terminalu). Konsument działa w sposób podobny
+do producenta, ale zamiast czytać dane z pliku źródłowego, odbiera je z potoku FIFO.
+Główny program jest odpowiedzialny za tworzenie potoku FIFO, uruchamianie procesów
+producenta i konsumenta oraz zarządzanie ich działaniem. Po zakończeniu pracy
+procesów potomnych, program główny usuwa potok FIFO. Dodatkowo, program obsługuje
+sygnał SIGINT (generowany przez naciśnięcie Ctrl+C), który powoduje usunięcie
+potoku FIFO przed zakończeniem programu. Ilość przesyłanych danych uzupełniamy w
+pliku Makefile.
+====================================================================================
+Program uruchamiamy wpisując:
 -> make runA
--> make runB
-
-Czyszczenie katalogu:
+-> makw runB
+====================================================================================
+Aby wyczyścić katalog:
 -> make clean
-
-Archiwizacja:
+====================================================================================
+Aby zarchiwizować katalog:
 -> make tar
+====================================================================================

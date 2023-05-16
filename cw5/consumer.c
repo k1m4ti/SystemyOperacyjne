@@ -1,91 +1,109 @@
 /*
-* Created by Mateusz Glab on 04/05/23
-* The program is transferring data from fifo pipe to consumer file
-*/
+ * created 05/05/23 by Mateusz Glab
+ * program opens a fifio pipe and then the data
+ * from pipe is transferred to file
+ */
 
 #include <stdio.h>
 #include <stdlib.h>
-#include <fcntl.h>
-#include <unistd.h>
 #include <sys/types.h>
 #include <sys/stat.h>
-#include <string.h>
+#include <fcntl.h>
 #include <time.h>
+#include <unistd.h>
 
-#define BUFF_LEN 10
-#define DATA_FRAME 5    //has to be smaller than buffer length
+#define FIFO argv[1]
+#define DESTINATION argv[2]
+#define DATA_FRAME_DOWNLOADING argv[3]
 
-#define FIFO_NAME argv[1]
-#define CONSUMER_FILE argv[2]
+int main(int argc, char **argv) {
 
-int main(int argc, char *argv[]) {
-
-    /* Bad input arguments in consumer program */
-    if (argc != 3) {
-        perror("Incorrect number of arguments in consumer program\n");
+    /* check amount of parameters */
+    if (argc != 4) {
+        perror("Number of parameters isn't correct\n");
+        printf("To run program: ./progName fifoName destinationFileName dataFrameDownloading\n");
         exit(EXIT_FAILURE);
     }
 
-    /* Open consumer file */
-    int fileNum = open(CONSUMER_FILE, O_TRUNC | O_CREAT | O_WRONLY, 0666);
-    if (fileNum == -1) {
-        perror("Cannot open consumer file\n");
+    /* open source file */
+    int destinationDes;
+    if((destinationDes = open(DESTINATION, O_WRONLY | O_TRUNC | O_CREAT, 0666)) == -1){
+        perror("Failed to open/create destination file\n");
         exit(EXIT_FAILURE);
     }
 
-    /* Open fifo pipe */
-    int fifoNum = open(FIFO_NAME, O_RDONLY, 0666);
-    if (fifoNum == -1) {
-        perror("Cannot open fifo pipe in consumer program\n");
+    /* open fifo pipe */
+    int fifoDes;
+    if((fifoDes = open(FIFO, O_RDONLY, 0666)) == -1){
+        perror("Failed to open fifo pipe\n");
         exit(EXIT_FAILURE);
     }
 
-    /* Buffer declaration */
-    char buffer[BUFF_LEN];
-    char termOut[BUFF_LEN + 24];
+    /* initiation of generator random numbers */
+    srand(time(NULL) ^ getpid());
 
-    /* Transferring loop*/
-    ssize_t readData;
-    while (1) {
+    size_t dataFrame = atoi(DATA_FRAME_DOWNLOADING);
+    /* write data to fifo loop */
+    while(1){
+
         /* wait random time */
-        sleep(rand() % 5);
+        sleep(rand() % 3);
 
-        /* Read data from fifo pipe */
-        if ((readData = read(fifoNum, &buffer, DATA_FRAME)) == -1) {
-            perror("Failed to read fifo file in consumer program\n");
+        /* dynamic buffer declaration */
+        char *buffer = (char *) malloc(dataFrame);
+        if(buffer == NULL){
+            perror("Malloc error\n");
+            exit(EXIT_FAILURE);
+        }
+
+        /* read data from fifo pipe */
+        ssize_t readen;
+        if((readen = read(fifoDes, buffer,dataFrame)) == -1){
+            perror("Failed to read data from source\n");
             exit(EXIT_FAILURE);
         }
 
         /* break loop */
-        if (readData == 0) break;
+        if(readen == 0){
+            free(buffer);
+            break;
+        }
 
-        /* Write data to consumer file */
-        if ((write(fileNum, &buffer, readData)) == -1) {
-            perror("Cannot write data to consumer file\n");
+        /* write data to file */
+        if(write(destinationDes, buffer, readen) == -1){
+            perror("Failed to write data to destination file\n");
             exit(EXIT_FAILURE);
         }
 
-        /* Write data to terminal */
-        buffer[readData] = '\0';
-        sprintf(termOut, "%s%s%c", "\x1b[31mDownloading...\x1b[0m", buffer, '\n');
-
-        if (write(STDOUT_FILENO, termOut, strlen(termOut)) == -1) {
-            perror("Write to terminal is impossible, write error\n");
+        /* write data to terminal */
+        char *termOut = (char *) malloc(dataFrame + 27);
+        if (termOut == NULL) {
+            perror("Malloc error\n");
             exit(EXIT_FAILURE);
         }
+
+        buffer[readen] = '\0';
+        sprintf(termOut, "%s%s%c%c", "\x1b[35mDownloading... \x1b[0m", buffer, '\n', '\n');
+        free(buffer);
+
+        if (write(STDOUT_FILENO, termOut, dataFrame + 26) == -1) {
+            perror("Failure to write data to terminal\n");
+            exit(EXIT_FAILURE);
+        }
+        free(termOut);
     }
 
-    /* Close consumer file */
-    if (close(fileNum) == -1) {
-        perror("Cannot close consumer file\n");
+    /* close fifo pipe */
+    if(close(fifoDes) == -1){
+        perror("Failed to close fifo pipe\n");
         exit(EXIT_FAILURE);
     }
 
-    /* Close fifo pipe */
-    if (close(fifoNum) == -1) {
-        perror("Cannot close fifo pipe in consumer program\n");
+    /* close destination file */
+    if(close(destinationDes) == -1){
+        perror("Failed to close source file\n");
         exit(EXIT_FAILURE);
     }
 
-    return 0;
+    return 1;
 }

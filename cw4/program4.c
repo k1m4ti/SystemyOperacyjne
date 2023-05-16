@@ -16,15 +16,13 @@
 
 #define SOURCE argv[1]
 #define DESTINATION argv[2]
-
-#define BUF_LEN 10  //bytes
-#define DATA_FRAME_UPLOADING 9  //bytes, has to be smaller than BUF_LEN
-#define DATA_FRAME_DOWNLOADING 9    //bytes, has to be smaller than BUF_LEN
+#define DATA_FRAME_UPLOADING argv[3]
+#define DATA_FRAME_DOWNLOADING argv[4]
 
 int main(int argc, char *argv[]) {
 
     /* check input parameters */
-    if (argc != 3) {
+    if (argc != 5) {
         perror("Run program correctly\n");
         printf("Type ./progName sourceFile destinationFile\n");
         exit(EXIT_FAILURE);
@@ -63,6 +61,7 @@ int main(int argc, char *argv[]) {
             /* initiation of generator random numbers */
             srand(time(NULL) ^ getpid());
 
+            size_t download = atoi(DATA_FRAME_DOWNLOADING);
             /* write data from pipe to file loop */
             while (1) {
 
@@ -70,15 +69,15 @@ int main(int argc, char *argv[]) {
                 sleep(rand() % 3);
 
                 /* dynamic buffer declaration */
-                char *buffer = (char *) malloc(BUF_LEN);
+                char *buffer = (char *) malloc(download);
                 if (buffer == NULL) {
                     perror("Malloc error\n");
                     exit(EXIT_FAILURE);
                 }
 
                 /* read data from pipe */
-                int readen;
-                if ((readen = read(fileDes[0], buffer, DATA_FRAME_DOWNLOADING)) == -1) {
+                ssize_t readen;
+                if ((readen = read(fileDes[0], buffer, download)) == -1) {
                     perror("Failure to read pipe\n");
                     exit(EXIT_FAILURE);
                 }
@@ -93,7 +92,7 @@ int main(int argc, char *argv[]) {
                 }
 
                 /* write data to terminal */
-                char *termOut = (char *) malloc(BUF_LEN + 26);
+                char *termOut = (char *) malloc(download + 27);
                 if (termOut == NULL) {
                     perror("Malloc error\n");
                     exit(EXIT_FAILURE);
@@ -103,7 +102,7 @@ int main(int argc, char *argv[]) {
                 sprintf(termOut, "%s%s%c%c", "\x1b[35mDownloading... \x1b[0m", buffer, '\n', '\n');
                 free(buffer);
 
-                if (write(STDOUT_FILENO, termOut, BUF_LEN + 24) == -1) {
+                if (write(STDOUT_FILENO, termOut, download + 26) == -1) {
                     perror("Failure to write data to terminal\n");
                     exit(EXIT_FAILURE);
                 }
@@ -143,6 +142,7 @@ int main(int argc, char *argv[]) {
             /* initiation of generator random numbers */
             srand(time(NULL));
 
+            size_t upload = atoi(DATA_FRAME_UPLOADING);
             /* write data from file to pipe loop */
             while (1) {
 
@@ -150,15 +150,15 @@ int main(int argc, char *argv[]) {
                 sleep(rand() % 3);
 
                 /* dynamic buffer declaration */
-                char *buffer = (char *) malloc(BUF_LEN);
+                char *buffer = (char *) malloc(upload);
                 if (buffer == NULL) {
                     perror("Malloc error\n");
                     exit(EXIT_FAILURE);
                 }
 
                 /* read data from source */
-                int readen;
-                if ((readen = read(sourceDes, buffer, DATA_FRAME_UPLOADING)) == -1) {
+                ssize_t readen;
+                if ((readen = read(sourceDes, buffer, upload)) == -1) {
                     perror("Failure to read source file\n");
                     exit(EXIT_FAILURE);
                 }
@@ -177,7 +177,7 @@ int main(int argc, char *argv[]) {
 
 
                 /* write data to terminal */
-                char *termOut = (char *) malloc(BUF_LEN + 24);
+                char *termOut = (char *) malloc(upload + 25);
                 if (termOut == NULL) {
                     perror("Malloc error\n");
                     exit(EXIT_FAILURE);
@@ -187,7 +187,7 @@ int main(int argc, char *argv[]) {
                 sprintf(termOut, "%s%s%c%c", "\x1b[34mUploading... \x1b[0m", buffer, '\n', '\n');
                 free(buffer);
 
-                if (write(STDOUT_FILENO, termOut, BUF_LEN + 24) == -1) {
+                if (write(STDOUT_FILENO, termOut, upload + 24) == -1) {
                     perror("Failure to write data to terminal\n");
                     exit(EXIT_FAILURE);
                 }

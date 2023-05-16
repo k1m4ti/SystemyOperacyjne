@@ -8,6 +8,7 @@ Proces producenta powtarza tę operację, dopóki nie odczyta całego pliku.
 W międzyczasie proces producenta generuje losowy czas oczekiwania, aby symulować
 przesyłanie danych w różnych momentach. Na ekranie terminala wyświetlane są
 informacje o postępie przesyłania danych. Nazwy plików podajemy w pliku Makefile.
+Ilość przesyłanych danych uzupełniamy w makefile w zmiennych download i upload.
 =================================================================================
 Program uruchamiamy wpisując:
 -> make run

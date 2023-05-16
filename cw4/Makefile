@@ -12,6 +12,8 @@ SYSNAME = $(shell uname -s)
 NAME1 = program4
 SOURCE_FILE = source.txt
 DESTINATION_FILE = consumer.txt
+UPLOAD = 20
+DOWNLOAD = 20
 
 # Programy wykonawcze
 EXEC1 = $(NAME1).x
@@ -39,7 +41,7 @@ $(EXEC1): $(OBJS1)
 
 # uruchomienie programu
 run: $(EXEC1)
-	./$(EXEC1) $(SOURCE_FILE) $(DESTINATION_FILE)
+	./$(EXEC1) $(SOURCE_FILE) $(DESTINATION_FILE) $(DOWNLOAD) $(UPLOAD)
 	diff -s $(SOURCE_FILE) $(DESTINATION_FILE)
 
 .PHONY: clean tar
@@ -51,4 +53,3 @@ clean:
 # Archiwizacja i kompresja
 tar: clean
 	(cd ../; tar -cvzf $(DIR).tar.gz  $(DIR) )
-
