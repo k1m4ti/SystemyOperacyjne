@@ -1,0 +1,31 @@
+=================================================================================
+Napisane przez Mateusz Głąb.
+Programy służą do komunikacji między klientem a serwerem za pomocą kolejek.
+Procesy są procesami demon przez nieskończoną pętle while(1) w programach.
+=================================================================================
+Program klienta:
+1. Otwiera kolejkę serwera.
+2. W pętli oczekuje na wprowadzenie przez użytkownika operacji matematycznej.
+3. Dodaje identyfikator procesu (PID) do żądania.
+4. Wysyła żądanie do serwera.
+5. Tworzy kolejkę klienta.
+6. Odbiera odpowiedź od serwera.
+7. Wyświetla otrzymaną odpowiedź.
+8. Zamyka kolejkę klienta i usuwa ją.
+=================================================================================
+Program serwera:
+1. Tworzy kolejkę serwera.
+2. W pętli oczekuje na otrzymanie żądania od klienta.
+3. Parsuje otrzymane żądanie, wyciągając identyfikator klienta, liczby i operator.
+4. Wykonuje odpowiednią operację matematyczną na podstawie żądania.
+5. Otwiera kolejkę klienta na podstawie identyfikatora klienta.
+6. Wysyła odpowiedź do klienta.
+7. Zamyka kolejkę klienta.
+=================================================================================
+Aby uruchomić programy należy wpisać:
+-> make run
+=================================================================================
+Aby zamknąć program serwera należy wysłać do procesu sygnał SIGINT (^C)
+Aby zamknąć program klienta należy wysłać do procesu sygnał SIGINT (^C) lub EOF
+(^D)
+=================================================================================
