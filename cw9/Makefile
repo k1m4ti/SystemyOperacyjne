@@ -9,25 +9,19 @@ DIR = $(notdir $(CURDIR))
 SYSNAME = $(shell uname -s)
 
 #rdzenie nazw plików
-NAME1 = sem
-NAME2 = multipler
-NAME3 = incrementer
-NAME4 = 3
-NAME5 = 2
-NAME6 = mytext.txt
-NAME7 = sem
-# 1->synchro on 0->synchro off
-NAME8 = 1
-
+NAME1 = thread
+NAME2 = program9
+THREADS = 3
+SECTIONS = 3
 
 # Programy wykonawcze
 EXEC1  = $(NAME2).x
-EXEC2  = $(NAME3).x
+
 
 # object files
 OBJS1  = $(NAME1).o
 OBJS2  = $(NAME2).o
-OBJS3  = $(NAME3).o
+
 
 # Pliki naglowkowe
 HEADS1 = $(NAME1).h
@@ -77,16 +71,12 @@ $(LIB_STAT): $(LIB_OBJS)
 $(EXEC1): $(OBJS2) $(LIB_STAT)
 	$(LD) -o $@ $(LFLAGS) $(OBJS2) -L$(LIB_DIR) -l$(LIB_NAME)
 
-$(EXEC2): $(OBJS3) $(LIB_STAT)
-	$(LD) -o $@ $(LFLAGS) $(OBJS3) -L$(LIB_DIR) -l$(LIB_NAME)
-	rm -rf $(LIB_DIR)
-
-
 .PHONY: run
 
 # uruchomienie programu
-run: $(EXEC1) $(EXEC2)
-	./$(EXEC1) $(EXEC2) $(NAME4) $(NAME5) $(NAME6) $(NAME7) $(NAME8)
+run: $(EXEC1)
+	clear
+	./$(EXEC1) $(THREADS) $(SECTIONS)
 
 .PHONY: clean tar
 

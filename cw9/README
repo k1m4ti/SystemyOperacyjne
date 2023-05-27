@@ -1,0 +1,26 @@
+===============================================================================
+Autor: Mateusz Głąb
+Data: 27/05/23
+===============================================================================
+Opis programu
+===============================================================================
+Tworzymy sekcję prywatną, w której każdy wątek wyświetla odpowiedni komunikat 
+po lewej stronie okna konsoli. W sekcji krytycznej, tylko jeden wątek na raz 
+może drukować informacje po prawej stronie w tym samym wierszu. Do 
+synchronizacji wątków używamy muteksów, które zapewniają wzajemne wykluczanie.
+Globalna zmienna licznikowa jest używana jako zasób dzielony między wątkami.
+Na początku sekcji krytycznej, wątek przypisuje wartość globalnego licznika do
+swojego prywatnego licznika. Następnie zwiększa wartość prywatnego licznika o 1
+i przypisuje tę wartość z powrotem do globalnego licznika. Po zakończeniu
+działania wszystkich wątków, sprawdzamy, czy wartość globalnego licznika jest
+zgodna z oczekiwaną wartością.
+===============================================================================
+Aby uruchomić program:
+-> make run
+===============================================================================
+Aby wyczyścić katalog:
+-> make clean
+===============================================================================
+Aby zarchiwizować katalog:
+-> make tar
+===============================================================================
