@@ -40,8 +40,8 @@ LIB_OBJS = $(OBJS1)
 
 
 # Opcje kompilatora i linkera; -fPIC potrzebna dla bibliotek dzielonych
-CFLAGS = -Wall -std=c99 -pedantic -O -fPIC -pthread
-LFLAGS = -Wall -std=c99 -pedantic -O -pthread
+CFLAGS = -Wall -std=c99 -pedantic -O -fPIC -lpthread
+LFLAGS = -Wall -std=c99 -pedantic -O -lpthread
 
 # Kompilator i linker
 CO = gcc

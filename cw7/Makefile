@@ -69,8 +69,8 @@ LIB_OBJS2 = $(OBJS2)
 
 
 # Opcje kompilatora i linkera; -fPIC potrzebna dla bibliotek dzielonych
-CFLAGS = -Wall -std=gnu99 -pedantic -O -fPIC
-LFLAGS = -Wall -std=gnu99 -pedantic -O
+CFLAGS = -Wall -std=gnu99 -pedantic -O -fPIC -pthread -lrt
+LFLAGS = -Wall -std=gnu99 -pedantic -O -pthread -lrt
 
 # Kompilator i linker
 CO = gcc
