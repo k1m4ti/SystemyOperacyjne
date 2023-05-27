@@ -1,0 +1,31 @@
+===============================================================================
+Autor: Mateusz Głąb
+Data: 27/05/23
+===============================================================================
+Opis programu
+===============================================================================
+Tworzymy sekcję prywatną, w której każdy wątek wyświetla odpowiedni komunikat 
+po lewej stronie okna konsoli. W sekcji krytycznej, tylko jeden wątek na raz 
+może drukować informacje po prawej stronie w tym samym wierszu. Do 
+synchronizacji wątków używamy algorytmu piekarni (algorytm piekarni jest 
+algorytmem wzajemnego wykluczania się wątków, które chcą wejść do sekcji
+krytycznej. Opiera się na przydzielaniu numerów piekarnianych każdemu wątkowi
+w sposób FIFO. Wątek z niższym numerem ma pierwszeństwo do wejścia do sekcji 
+krytycznej. Algorytm piekarni zapewnia sprawiedliwe przydziałanie kolejności 
+wejścia do sekcji krytycznej i unika zakleszczeń), który zapewnia wzajemne 
+wykluczanie.Globalna zmienna licznikowa jest używana jako zasób dzielony między 
+wątkami. Na początku sekcji krytycznej, wątek przypisuje wartość globalnego 
+licznika do swojego prywatnego licznika. Następnie zwiększa wartość prywatnego
+licznika o 1 i przypisuje tę wartość z powrotem do globalnego licznika. Po 
+zakończeniu działania wszystkich wątków, sprawdzamy, czy wartość globalnego 
+licznika jest zgodna z oczekiwaną wartością.
+===============================================================================
+Aby uruchomić program:
+-> make run
+===============================================================================
+Aby wyczyścić katalog:
+-> make clean
+===============================================================================
+Aby zarchiwizować katalog:
+-> make tar
+===============================================================================
